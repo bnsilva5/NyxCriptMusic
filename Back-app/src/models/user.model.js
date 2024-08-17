@@ -21,6 +21,11 @@ export const User = sequelize.define(
         },
         password: {
             type: DataTypes.STRING,
+            allowNull: true
+        },
+        spotify_user_id: {
+            type: DataTypes.STRING,
+            unique: true,
             allowNull: false
         },
         spotify_access_token: {
@@ -36,6 +41,10 @@ export const User = sequelize.define(
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             allowNull: false
+        },
+        token_expiry_date: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
     }
 );

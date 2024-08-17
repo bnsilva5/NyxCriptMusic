@@ -3,6 +3,8 @@
 # dependencies
 /Front-app/node_modules
 /Back-app/node_modules
+/Back-app/.env
+/Back-app/.idea
 /.pnp
 .pnp.js
 

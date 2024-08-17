@@ -1,45 +1,30 @@
-import UserService from "../models/Services/user.service.js";
+// src/controllers/auth.controller.js
+import AuthService from '../services/auth.service.js';
+import jwt from 'jsonwebtoken';
 
-class UserController {
-    static async register(req, res) {
-        try {
-            const userData = req.body;
-            // Crear el usuario utilizando el servicio
-            const userDTO = await UserService.createUser(userData);
-            // Enviar la respuesta con el DTO del usuario creado
-            res.status(201).json(userDTO);
-        } catch (error) {
-            // Manejar los diferentes tipos de errores
-            if (error.message === 'Email already in use') {
-                res.status(409).json({ message: error.message });
-            } else if (error.message === 'Username already in use') {
-                res.status(409).json({ message: error.message });
-            } else {
-                res.status(500).json({ message: error.message });
-            }
-        };
-    };
-
+class AuthController {
     static async login(req, res) {
-        const { email, password } = req.body;
         try {
-            // Crear el usuario utilizando el servicio
-            const userDTO = await UserService.findUserlogin(email, password);
-            res.cookie("token", userDTO.token);
-            // Enviar la respuesta con el DTO del usuario creado
-            res.status(201).json(userDTO);
+            const authUrl = AuthService.getSpotifyAuthUrl();
+            res.redirect(authUrl);
         } catch (error) {
-            // Manejar los diferentes tipos de errores
-            res.status(500).json({ message: error.message });
-        };
-    };
+            res.status(500).json({ error: 'Failed to get Spotify auth URL' });
+        }
+    }
 
-    static logout(req, res) {
-        res.cookie('token', "", {
-            expires: new Date(0)
-        });
-        return res.sendStatus(200);
+    static async handleCallback(req, res) {
+        const code = req.query.code;
+
+        try {
+            // Intercambiar el código por tokens y obtener información del usuario
+            const { token, user } = await AuthService.handleSpotifyCallback(code);
+
+            // Devuelve el JWT al cliente
+            res.json({ token, user });
+        } catch (error) {
+            res.status(500).json({ "error: ": error });
+        }
     }
 }
 
-export default UserController;
+export default AuthController;
