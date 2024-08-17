@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import AuthController from '../controllers/auth.controller.js';
 import { authenticateToken } from '../middlewares/auth.middleware.js';
-import PlaylistController from "../controllers/playlist.controller.js"; // Importar el middleware
+import UserController from "../controllers/user_playlists.controller.js"; // Importar el middleware
 
 
 const router = Router();
@@ -13,6 +13,6 @@ router.get('/auth/login', AuthController.login);
 router.get('/auth/callback', AuthController.handleCallback);
 
 
-router.get('/user/playlists', authenticateToken, PlaylistController.getPlaylists);
+router.get('/home/user_playlists', authenticateToken, UserController.getUserPlaylists);
 
 export default router;

@@ -5,15 +5,15 @@ class PlaylistService {
         try {
             const response = await axios.get('https://api.spotify.com/v1/me/playlists', {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             });
-            console.log("RESPONSE_PLAYLIST: ", response);
-            return response.data.items; // Devuelve las playlists
+            return response.data;
         } catch (error) {
-            throw new Error('Failed to fetch playlists');
+            console.error('Error fetching playlists from Spotify:', error); // Imprime el error para depuración
+            throw error;  // Re-lanza el error para que pueda ser capturado en el controlador
         }
-    }
+    };
 }
 
 export default PlaylistService;

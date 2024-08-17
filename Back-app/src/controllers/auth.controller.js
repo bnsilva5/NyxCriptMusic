@@ -16,13 +16,13 @@ class AuthController {
         const code = req.query.code;
 
         try {
-            // Intercambiar el código por tokens y obtener información del usuario
             const { token, user } = await AuthService.handleSpotifyCallback(code);
 
             // Devuelve el JWT al cliente
-            res.json({ token, user });
+            res.json({ token });
         } catch (error) {
-            res.status(500).json({ "error: ": error });
+            console.error('Error handling Spotify callback:', error);
+            res.status(500).json({ error: 'Failed to handle Spotify callback' });
         }
     }
 }

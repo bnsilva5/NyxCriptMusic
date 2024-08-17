@@ -3,6 +3,7 @@ import axios from 'axios';
 import qs from 'querystring';
 import jwt from 'jsonwebtoken';
 import UserDao from '../models/DAOs/user.dao.js'; // Importa el DAO
+import { createAccessToken } from "../libs/jwt.js";
 
 class AuthService {
     static getSpotifyAuthUrl() {
@@ -77,14 +78,20 @@ class AuthService {
             });
         }
 
-        // Generar JWT para tu aplicación
-        const token = jwt.sign(
-            { user_id: user.user_id },
-            process.env.JWT_SECRET,
-            { expiresIn: '1d' }
-        );
+        // Generar JWT para tu aplicación usando createAccessToken
+        const token = await createAccessToken({ user_id: user.user_id });
 
         return { token, user };
+    };
+
+    static async getUserPlaylists(accessToken) {
+        const response = await axios.get('https://api.spotify.com/v1/me/playlists', {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        return response.data;
     }
 }
 

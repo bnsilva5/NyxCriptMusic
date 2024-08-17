@@ -8,7 +8,7 @@ export const authenticateToken = (req, res, next) => {
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) return res.sendStatus(403);
-        req.user = user;
+        req.user = user; // Asegúrate de que `user` contenga la información que necesitas
         next();
     });
 };
