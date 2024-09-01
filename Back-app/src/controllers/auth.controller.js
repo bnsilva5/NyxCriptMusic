@@ -1,6 +1,4 @@
-// src/controllers/auth.controller.js
-import AuthService from '../services/auth.service.js';
-import jwt from 'jsonwebtoken';
+import AuthService from '../services/auth.service.js'; // Asegúrate de importar el AuthService
 
 class AuthController {
     static async login(req, res) {
@@ -14,12 +12,10 @@ class AuthController {
 
     static async handleCallback(req, res) {
         const code = req.query.code;
-
         try {
-            const { token, user } = await AuthService.handleSpotifyCallback(code);
-
-            // Devuelve el JWT al cliente
-            res.json({ token });
+            const { token } = await AuthService.handleSpotifyCallback(code);
+            // Redirige al usuario al frontend con el token como parámetro en la URL
+            res.redirect(`http://localhost:3000/home-user?token=${token}`);
         } catch (error) {
             console.error('Error handling Spotify callback:', error);
             res.status(500).json({ error: 'Failed to handle Spotify callback' });
