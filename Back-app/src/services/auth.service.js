@@ -1,7 +1,6 @@
 // src/services/auth.service.js
 import axios from 'axios';
 import qs from 'querystring';
-import jwt from 'jsonwebtoken';
 import UserDao from '../models/DAOs/user.dao.js'; // Importa el DAO
 import { createAccessToken } from "../libs/jwt.js";
 
@@ -92,7 +91,7 @@ class AuthService {
         });
 
         return response.data;
-    }
+    };
 }
 
 export default AuthService;
