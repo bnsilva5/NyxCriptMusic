@@ -13,6 +13,8 @@ router.get('/auth/login', AuthController.login);
 router.get('/auth/callback', AuthController.handleCallback);
 
 
-router.get('/home/user_playlists', authenticateToken, UserController.getUserPlaylists);
+router.get('/user_playlists', authenticateToken, UserController.getUserPlaylists);
+router.get('/user/profile', authenticateToken, UserController.getUserProfile);
+
 
 export default router;
