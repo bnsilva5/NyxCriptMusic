@@ -5,8 +5,10 @@
 /Back-app/node_modules
 /Back-app/.env
 /Back-app/.idea
+/Front-app/.idea
 /.pnp
 .pnp.js
+.idea
 
 # testing
 /coverage
